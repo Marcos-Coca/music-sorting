@@ -25,16 +25,6 @@ const rl = createInterface({
   output: process.stdout,
 });
 
-export function getDirectoryPath() {
-  return new Promise((resolve, reject) => {
-    rl.question("Ruta donde se encuentran los archivos: ", (answer) => {
-      const answerPath = path.join(answer);
-      checkIfExist(answerPath);
-      resolve(answerPath);
-    });
-  });
-}
-
 export function getDestinyPath() {
   return new Promise((resolve, reject) => {
     rl.question("Ruta a donde se copiaran los archivos: ", (answer) => {

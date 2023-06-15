@@ -1,19 +1,30 @@
 import fs from "node:fs";
 import path from "node:path";
 
-import { getDestinyPath, getDirectoryPath, createWorker } from "./utils.mjs";
+import { getDestinyPath, createWorker } from "./utils.mjs";
 
 const THREAD_COUNT = 4;
 
-const directoryPath = await getDirectoryPath();
+const directoryPaths = [
+  path.join("C:/Users/Marcos/OneDrive/Escritorio"),
+  path.join("C:/Users/Marcos/Downloads"),
+];
 const destinyPath = await getDestinyPath();
 
-const musicFiles = fs
-  .readdirSync(directoryPath)
-  .filter((file) => file.endsWith(".mp3") || file.endsWith(".mp4"));
+const musicFilesPath = directoryPaths
+  .map((directoryPath) => {
+    return fs
+      .readdirSync(directoryPath)
+      .filter((file) => {
+        return file.endsWith(".mp3") || file.endsWith(".mp4");
+      })
+      .map((file) => {
+        return path.join(directoryPath, file);
+      });
+  })
+  .flat();
 
 const musicDir = `${destinyPath}/Music`;
-const musicFilesPath = musicFiles.map((file) => path.join(directoryPath, file));
 
 if (!fs.existsSync(musicDir)) {
   fs.mkdirSync(musicDir);

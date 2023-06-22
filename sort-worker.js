@@ -25,3 +25,4 @@ const promises = musicFilesPath.map(async (file) => {
 await Promise.all(promises);
 
 parentPort.postMessage(musicFilesMetadata);
+parentPort.close();

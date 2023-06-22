@@ -5,12 +5,13 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "node index.mjs"
+    "start": "node index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "music-metadata": "8.1.4"
+    "music-metadata": "8.1.4",
+    "screenshot-desktop": "1.14.0"
   }
 }

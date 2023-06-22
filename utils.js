@@ -4,9 +4,9 @@ import fs from "node:fs";
 import { createInterface } from "node:readline";
 import { Worker } from "node:worker_threads";
 
-export function createWorker(musicDir, musicFilesPath) {
+export function createSortWorker(musicDir, musicFilesPath) {
   return new Promise(function (resolve, reject) {
-    const worker = new Worker("./worker.mjs", {
+    const worker = new Worker("./sort-worker.js", {
       workerData: { musicFilesPath, musicDir },
     });
 

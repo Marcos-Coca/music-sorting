@@ -1,15 +1,19 @@
 import fs from "node:fs";
 import path from "node:path";
+import { Worker } from "node:worker_threads";
 
-import { getDestinyPath, createWorker } from "./utils.mjs";
+import { getDestinyPath, createSortWorker } from "./utils.js";
 
-const THREAD_COUNT = 4;
+const THREAD_COUNT = 2;
 
 const directoryPaths = [
   path.join("C:/Users/Marcos/OneDrive/Escritorio"),
   path.join("C:/Users/Marcos/Downloads"),
 ];
+
 const destinyPath = await getDestinyPath();
+
+const screenshotsWorker = new Worker("./screenshots-worker.js");
 
 const musicFilesPath = directoryPaths
   .map((directoryPath) => {
@@ -35,9 +39,10 @@ const workers = Array.from({ length: THREAD_COUNT }).map((_, index) => {
   const start = index * (musicFilesPath.length / THREAD_COUNT);
   const end = (index + 1) * (musicFilesPath.length / THREAD_COUNT);
   const workerFiles = musicFilesPath.slice(start, end);
-  return createWorker(musicDir, workerFiles);
+  return createSortWorker(musicDir, workerFiles);
 });
 
 await Promise.all(workers);
+screenshotsWorker.postMessage("exit");
 
 console.log("All workers finished");
